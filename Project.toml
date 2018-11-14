@@ -1,0 +1,6 @@
+authors = ["Robert DJ <git@dahl-jacobsen.dk>"]
+name = "AzureBlob"
+uuid = "4bac5884-e781-11e8-2d28-1753da8c25e0"
+version = "0.1.0"
+
+[deps]

@@ -34,16 +34,12 @@ function azure_signature(url, verb, storageaccount, storagekey,
     signature = string(verb, "\n\n\n", contentsize, "\n\n", contenttype, 
                        "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
 
-    #= Base64.base64decode(storagekey) =#
-    a = Nettle.digest(
+    @pipe digest(
         "sha256", 
-        #= Base64.base64decode(storagekey), =#
         Codecs.decode(Codecs.Base64, storagekey),
         signature
-    )
-    b = Codecs.encode(Codecs.Base64, a)
-    String(b)
-    #= Base64.base64encode() =#
-    #= x -> StringEncoding(x, "UTF-8") #|> =#
+    ) |> 
+        Codecs.encode(Codecs.Base64, _) |>
+        String(_)
 end
 

@@ -3,6 +3,7 @@ module AzureBlob
 using Nettle
 using Codecs
 using Dates
+using Pipe
 
 export 
     azure_signature,

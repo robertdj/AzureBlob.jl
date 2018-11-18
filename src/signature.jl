@@ -23,7 +23,7 @@ Generate signature for Azure storage.
 function azure_signature(url, verb, storageaccount, storagekey,
                          container, datestamp, headers = "", CMD = "",
                          contentsize = "", 
-                         contenttype = "application/json")
+                         contenttype = "")
     time_arg = string("x-ms-date:", datestamp, "\nx-ms-version:2017-04-17")
     if length(headers) > 0
         time_arg = string(headers, "\n", time_arg)
@@ -34,6 +34,7 @@ function azure_signature(url, verb, storageaccount, storagekey,
     signature = string(verb, "\n\n\n", contentsize, "\n\n", contenttype, 
                        "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
 
+    # TODO: Check that storagekey is UTF8 encoded
     @pipe Nettle.digest(
         "sha256", 
         Codecs.decode(Codecs.Base64, storagekey),

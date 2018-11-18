@@ -34,7 +34,7 @@ function azure_signature(url, verb, storageaccount, storagekey,
     signature = string(verb, "\n\n\n", contentsize, "\n\n", contenttype, 
                        "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
 
-    @pipe digest(
+    @pipe Nettle.digest(
         "sha256", 
         Codecs.decode(Codecs.Base64, storagekey),
         signature

@@ -4,7 +4,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
     bloburl = string("https://", storageaccount,
                      ".blob.core.windows.net/", container, "/", blobdir)
 
-    datestamp = string(http_date(Dates.now()), " GMT")
+    @show datestamp = http_date(Dates.now())
 
     signature = azure_signature(bloburl, "GET", storageaccount, storagekey,
                             container, datestamp, "", string("/", blobdir))
@@ -18,6 +18,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
     ]
 
     r = HTTP.request("GET", bloburl, header)
+    # TODO: Check HTTP status
 end
 
 function blob_to_url(directory, blob)

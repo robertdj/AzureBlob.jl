@@ -10,12 +10,11 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
                             container, datestamp, "", string("/", blobdir))
     token = string("SharedKey ", storageaccount, ":", signature)
 
-    # "Authorization" => token
-    @show header = [
-        Pair("Authorization", token), 
-        Pair("Content-Length", "0"),
-        Pair("x-ms-version", "2017-04-17"), 
-        Pair("x-ms-date", datestamp)
+    header = [
+        "Authorization" => token, 
+        "Content-Length" => "0",
+        "x-ms-version" => "2017-04-17", 
+        "x-ms-date" => datestamp
     ]
 
     r = HTTP.request("GET", bloburl, header)

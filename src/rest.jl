@@ -27,7 +27,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
     header = [
         "Authorization" => token, 
         "Content-Length" => "0",
-        "x-ms-version" => "2017-04-17", 
+        "x-ms-version" => X_MS_VERSION, 
         "x-ms-date" => timestamp
     ]
 
@@ -67,7 +67,7 @@ function put_blob(content, blob, directory, container, storageaccount,
     header = [
         "Authorization" => token, 
         "Content-Length" => sz,
-        "x-ms-version" => "2017-04-17", 
+        "x-ms-version" => X_MS_VERSION, 
         "x-ms-date" => timestamp,
         "x-ms-blob-type" => "Blockblob",
         "Content-type" => contenttype

@@ -28,7 +28,7 @@ function azure_signature(; url::String, verb::String,
                          headers::String = "", CMD::String = "",
                          contentsize::String = "", 
                          contenttype::String = "")
-    time_arg = string("x-ms-date:", timestamp, "\nx-ms-version:2017-04-17")
+    time_arg = string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)
     if length(headers) > 0
         time_arg = string(headers, "\n", time_arg)
     end

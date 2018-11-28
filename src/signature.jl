@@ -22,11 +22,13 @@ http_date(dt::DateTime) = @pipe Dates.format(dt, Dates.RFC1123Format) |> string(
 """
 Generate signature for Azure storage.
 """
-function azure_signature(url, verb, storageaccount, storagekey,
-                         container, datestamp, headers = "", CMD = "",
-                         contentsize = "", 
-                         contenttype = "")
-    time_arg = string("x-ms-date:", datestamp, "\nx-ms-version:2017-04-17")
+function azure_signature(; url::String, verb::String,
+                         storageaccount::String, storagekey,
+                         container::String, timestamp::String,
+                         headers::String = "", CMD::String = "",
+                         contentsize::String = "", 
+                         contenttype::String = "")
+    time_arg = string("x-ms-date:", timestamp, "\nx-ms-version:2017-04-17")
     if length(headers) > 0
         time_arg = string(headers, "\n", time_arg)
     end

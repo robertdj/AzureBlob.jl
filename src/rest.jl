@@ -31,7 +31,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
         "x-ms-date" => timestamp
     ]
 
-    HTTP.request("GET", bloburl, header)
+    HTTP.get(bloburl, header)
 end
 
 """
@@ -73,7 +73,7 @@ function put_blob(content, blob, directory, container, storageaccount,
         "Content-type" => contenttype
     ]
 
-    HTTP.request("PUT", bloburl, header, content)
+    HTTP.put(bloburl, header, content)
 end
 
 function blob_to_url(directory, blob)

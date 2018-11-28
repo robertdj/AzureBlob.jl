@@ -10,21 +10,25 @@ julia> contentsize("foo")
 contentsize(obj::String) = length(obj)
 
 """
-Print `DateTime` in RFC 1123 format as requireddby the REST interface.
+Print `DateTime` in RFC 1123 format as required by the REST interface.
 
-Check <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings> for info.
+The RFC 1123 expects to have "GMT" (aka UTC) at the end of the string,
+cf. <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings>.
+However, the Dates package does not include the timezone by default.
 """
-http_date(dt::DateTime) = Dates.format(dt, Dates.RFC1123Format)
+http_date(dt::DateTime) = @pipe Dates.format(dt, Dates.RFC1123Format) |> string(_, " GMT")
 
 
 """
 Generate signature for Azure storage.
 """
-function azure_signature(url, verb, storageaccount, storagekey,
-                         container, datestamp, headers = "", CMD = "",
-                         contentsize = "", 
-                         contenttype = "")
-    time_arg = string("x-ms-date:", datestamp, "\nx-ms-version:2017-04-17")
+function azure_signature(; url::String, verb::String,
+                         storageaccount::String, storagekey,
+                         container::String, timestamp::String,
+                         headers::String = "", CMD::String = "",
+                         contentsize::String = "", 
+                         contenttype::String = "")
+    time_arg = string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)
     if length(headers) > 0
         time_arg = string(headers, "\n", time_arg)
     end

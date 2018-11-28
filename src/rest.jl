@@ -6,7 +6,7 @@ Download file from blob storage using HTTP GET.
 function get_blob(blob, directory, container, storageaccount, storagekey, resourcegroup)
     #TODO: Check input
     # TODO: Function for bloburl
-    blobdir = blob_to_url(directory, blob)
+    blobdir = blob_directory(directory, blob)
     bloburl = string("https://", storageaccount,
                      ".blob.core.windows.net/", container, "/", blobdir)
 
@@ -42,7 +42,8 @@ Upload file to blob storage using HTTP PUT.
 function put_blob(content, blob, directory, container, storageaccount,
                   storagekey, resourcegroup, contenttype::String =
                   "application/json")
-    blobdir = blob_to_url(directory, blob)
+    # TODO: Check if content matches contenttype
+    blobdir = blob_directory(directory, blob)
     bloburl = string("https://", storageaccount,
                      ".blob.core.windows.net/", container, "/", blobdir)
 
@@ -76,6 +77,6 @@ function put_blob(content, blob, directory, container, storageaccount,
     HTTP.put(bloburl, header, content)
 end
 
-function blob_to_url(directory, blob)
+function blob_directory(directory, blob)
     string(directory, "/", blob)
 end

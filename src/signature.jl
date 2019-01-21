@@ -9,6 +9,7 @@ julia> contentsize("foo")
 """
 contentsize(obj::String) = length(obj)
 
+
 """
 Print `DateTime` in RFC 1123 format as required by the REST interface.
 
@@ -16,7 +17,7 @@ The RFC 1123 expects to have "GMT" (aka UTC) at the end of the string,
 cf. <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings>.
 However, the Dates package does not include the timezone by default.
 """
-http_date(dt::DateTime) = @pipe Dates.format(dt, Dates.RFC1123Format) |> string(_, " GMT")
+http_date(dt::Dates.DateTime) = @pipe Dates.format(dt, Dates.RFC1123Format) |> string(_, " GMT")
 
 
 """
@@ -28,6 +29,10 @@ function azure_signature(; url::String, verb::String,
                          headers::String = "", CMD::String = "",
                          contentsize::String = "", 
                          contenttype::String = "")
+
+	# TODO: Rename to storage_signature?
+	# TODO: verb must be "GET" or "PUT"
+	# TODO: timestamp must be valid
     time_arg = string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)
     if length(headers) > 0
         time_arg = string(headers, "\n", time_arg)
@@ -39,12 +44,8 @@ function azure_signature(; url::String, verb::String,
                        "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
 
     # TODO: Check that storagekey is UTF8 encoded
-    @pipe Nettle.digest(
-        "sha256", 
-        Codecs.decode(Codecs.Base64, storagekey),
-        signature
-    ) |> 
-        Codecs.encode(Codecs.Base64, _) |>
-        String(_)
+	@pipe Base64.base64decode(storagekey) |>
+		Nettle.digest("sha256", _, signature) |>
+		Base64.base64encode(_)
 end
 

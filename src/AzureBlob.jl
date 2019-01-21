@@ -1,10 +1,10 @@
 module AzureBlob
 
-using Nettle
-using Codecs
-using Dates
+import Base64
+import Nettle
+import Dates
 using Pipe
-using HTTP
+import HTTP
 
 export 
     azure_signature,

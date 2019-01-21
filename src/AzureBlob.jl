@@ -3,8 +3,9 @@ module AzureBlob
 import Base64
 import Nettle
 import Dates
-using Pipe
 import HTTP
+
+using Pipe
 
 export 
     azure_signature,

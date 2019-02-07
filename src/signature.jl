@@ -17,7 +17,7 @@ The RFC 1123 expects to have "GMT" (aka UTC) at the end of the string,
 cf. <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings>.
 However, the Dates package does not include the timezone by default.
 """
-http_date(dt::Dates.DateTime) = @pipe Dates.format(dt, Dates.RFC1123Format) |> string(_, " GMT")
+http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
 
 
 """

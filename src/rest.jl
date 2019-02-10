@@ -12,7 +12,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
 
     timestamp = http_date(Dates.now())
 
-    signature = azure_signature(
+    signature = storage_signature(
         url = bloburl,
         verb = "GET",
         storageaccount = storageaccount,
@@ -50,7 +50,7 @@ function put_blob(content, blob, directory, container, storageaccount,
     timestamp = http_date(Dates.now())
     sz = @pipe contentsize(content) |> string
 
-    signature = azure_signature(
+    signature = storage_signature(
         url = bloburl,
         verb = "PUT",
         storageaccount = storageaccount,

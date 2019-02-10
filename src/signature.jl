@@ -1,5 +1,5 @@
 """
-Return the content size of an object as needed in [`azure_signature`](@ref).
+Return the content size of an object as needed in [`storage_signature`](@ref).
 
 # Examples
 ```jldoctest
@@ -23,7 +23,7 @@ http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
 """
 Generate signature for Azure storage.
 """
-function azure_signature(; url::String, verb::String,
+function storage_signature(; url::String, verb::String,
                          storageaccount::String, storagekey,
                          container::String, timestamp::String,
                          headers::String = "", CMD::String = "",

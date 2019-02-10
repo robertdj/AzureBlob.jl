@@ -5,7 +5,7 @@ using Test
 @testset "Black box signature" begin
 	timestamp = DateTime(2019, 1, 1, 12, 34, 56) |> http_date
 
-	sig = azure_signature(
+	sig = storage_signature(
 		url = "url",
 		verb = "GET",
 		storageaccount = "storageaccount",

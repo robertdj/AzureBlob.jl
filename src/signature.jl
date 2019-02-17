@@ -44,8 +44,18 @@ function storage_signature(; url::String, verb::String,
                        "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
 
     # TODO: Check that storagekey is UTF8 encoded
-	@pipe Base64.base64decode(storagekey) |>
-		Nettle.digest("sha256", _, signature) |>
-		Base64.base64encode(_)
+	encode_storagekey(storagekey, signature)
 end
 
+
+"""
+	encode_storagekey(storagekey, signature)
+
+Encode the storage key using a signature string from [`storage_signature`](@ref).
+"""
+function encode_storagekey(storagekey, signature)
+	@pipe storagekey |>
+		Base64.base64decode |>
+		Nettle.digest("sha256", _, signature) |>
+		Base64.base64encode
+end

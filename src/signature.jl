@@ -33,9 +33,10 @@ function storage_signature(; url::String, verb::String,
 	# TODO: Rename to storage_signature?
 	# TODO: verb must be "GET" or "PUT"
 	# TODO: timestamp must be valid
-    time_arg = string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)
-    if length(headers) > 0
-        time_arg = string(headers, "\n", time_arg)
+    time_arg = if length(headers) == 0
+		signature_time(timestamp)
+	else
+		signature_time(timestamp, headers)
     end
 
     location_arg = string("/", storageaccount, "/", container, CMD)
@@ -43,10 +44,21 @@ function storage_signature(; url::String, verb::String,
     signature = string(verb, "\n\n\n", contentsize, "\n\n", contenttype, 
                        "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
 
-    # TODO: Check that storagekey is UTF8 encoded
 	encode_storagekey(storagekey, signature)
 end
 
+
+"""
+"""
+function signature_time(timestamp)
+    string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)
+end
+
+function signature_time(timestamp, headers)
+	@pipe timestamp |>
+		signature_time |>
+		string(headers, "\n", _)
+end
 
 """
 	encode_storagekey(storagekey, signature)
@@ -54,6 +66,7 @@ end
 Encode the storage key using a signature string from [`storage_signature`](@ref).
 """
 function encode_storagekey(storagekey, signature)
+    # TODO: Check that storagekey is UTF8 encoded
 	@pipe storagekey |>
 		Base64.base64decode |>
 		Nettle.digest("sha256", _, signature) |>

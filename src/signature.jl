@@ -15,7 +15,6 @@ Print `DateTime` in RFC 1123 format as required by the REST interface.
 
 The RFC 1123 expects to have "GMT" (aka UTC) at the end of the string,
 cf. <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings>.
-However, the Dates package does not include the timezone by default.
 """
 http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
 
@@ -27,7 +26,10 @@ end
 
 
 """
+	storage_signature(blob, directory, container, storageaccount, storagekey, timestamp)
+
 Signature for [`get_blob`](@ref).
+All arguments are strings.
 """
 function storage_signature(blob, directory, container, storageaccount, storagekey, timestamp)
 	time_arg = signature_time(timestamp)
@@ -41,9 +43,13 @@ end
 
 
 """
+	storage_signature(content, blob, directory, container, storageaccount, storagekey, timestamp, contenttype)
+
 Signature for [`put_blob`](@ref).
+All arguments are strings.
 """
 function storage_signature(content, blob, directory, container, storageaccount, storagekey, timestamp, contenttype)
+	# TODO: Check that contenttype is valid?
 	time_arg = signature_time(timestamp, "x-ms-blob-type:Blockblob")
 
     location_arg = string("/", storageaccount, "/", container, "/", directory, "/", blob)

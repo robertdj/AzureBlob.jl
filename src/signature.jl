@@ -54,6 +54,7 @@ function encode_storagekey(storagekey, signature)
 		Base64.base64encode
 end
 
+
 # ------------------------------------------------------------------------------
 
 """
@@ -103,5 +104,4 @@ The RFC 1123 expects to have "GMT" (aka UTC) at the end of the string,
 cf. <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings>.
 """
 http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
-
 

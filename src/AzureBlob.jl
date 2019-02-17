@@ -1,9 +1,9 @@
 module AzureBlob
 
 import Base64
-import Nettle
 import Dates
 import HTTP
+import Nettle
 
 using Pipe
 

@@ -49,6 +49,9 @@ end
 
 
 """
+signature_time(timestamp[, headers])
+
+Include the time stamp information for the signature.
 """
 function signature_time(timestamp)
     string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)

@@ -23,7 +23,7 @@ http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
 """
 Generate signature for Azure storage.
 """
-function storage_signature(; url::String, verb::String,
+function storage_signature(; verb::String,
                          storageaccount::String, storagekey,
                          container::String, timestamp::String,
                          headers::String = "", CMD::String = "",

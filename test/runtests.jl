@@ -6,7 +6,6 @@ using Test
 	timestamp = DateTime(2019, 1, 1, 12, 34, 56) |> http_date
 
 	getsig = storage_signature(
-		url = "url",
 		verb = "GET",
 		storageaccount = "storageaccount",
 		# Length of storagekey must be a multiple of 4
@@ -19,7 +18,6 @@ using Test
 
 
 	putsig = storage_signature(
-		url = "url",
 		verb = "PUT",
 		storageaccount = "storageaccount",
 		# Length of storagekey must be a multiple of 4

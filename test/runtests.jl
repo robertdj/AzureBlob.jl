@@ -5,16 +5,10 @@ using Test
 @testset "Black box signature" begin
 	timestamp = DateTime(2019, 1, 1, 12, 34, 56) |> http_date
 
-	sig = azure_signature(
-		url = "url",
-		verb = "GET",
-		storageaccount = "storageaccount",
-		# Length of storagekey must be a multiple of 4
-		storagekey = "storagekeyxx",
-		container = "container",
-		timestamp = timestamp
-	)
+	getsig = storage_signature("blob", "directory", "container", "storageaccount", "storagekeyxx", timestamp)
+	@test getsig == "QDFeyZXEbQXqHJ3Pu4WByyWo1zU52SRC/GBktr+8SdU="
 
-	@test sig == "3uLSOeEgZxolreoOtEgCe8kUUyfK9lvaKPeYoAdjQ7Q="
+	putsig = storage_signature("content", "blob", "directory", "container", "storageaccount", "storagekeyxx", timestamp, "application/json")
+	@test putsig == "Zxe1fAisDpvx84CpCfV4u4ptem78d0ikwOKsmvNe4lg="
 end
 

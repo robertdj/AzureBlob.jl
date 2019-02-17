@@ -10,17 +10,8 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
     bloburl = string("https://", storageaccount,
                      ".blob.core.windows.net/", container, "/", blobdir)
 
-    timestamp = http_date(Dates.now())
-
-    signature = storage_signature(
-        url = bloburl,
-        verb = "GET",
-        storageaccount = storageaccount,
-        storagekey = storagekey,
-        container = container,
-        timestamp = timestamp,
-        CMD = string("/", blobdir)
-    )
+	timestamp = http_date(Dates.now())
+	signature = storage_signature(blob, directory, container, storageaccount, storagekey, timestamp)
 
     token = string("SharedKey ", storageaccount, ":", signature)
 
@@ -28,7 +19,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
         "Authorization" => token, 
         "Content-Length" => "0",
         "x-ms-version" => X_MS_VERSION, 
-        "x-ms-date" => timestamp
+		"x-ms-date" => timestamp
     ]
 
     HTTP.get(bloburl, header)
@@ -43,25 +34,14 @@ function put_blob(content, blob, directory, container, storageaccount,
                   storagekey, resourcegroup, contenttype::String =
                   "application/json")
     # TODO: Check if content matches contenttype
-    blobdir = blob_directory(directory, blob)
+	blobdir = blob_directory(directory, blob)
     bloburl = string("https://", storageaccount,
                      ".blob.core.windows.net/", container, "/", blobdir)
 
     timestamp = http_date(Dates.now())
     sz = @pipe contentsize(content) |> string
 
-    signature = storage_signature(
-        url = bloburl,
-        verb = "PUT",
-        storageaccount = storageaccount,
-        storagekey = storagekey,
-        container = container,
-        headers = "x-ms-blob-type:Blockblob",
-        contentsize = sz,
-        contenttype = contenttype,
-        timestamp = timestamp,
-        CMD = string("/", blobdir)
-    )
+	signature = storage_signature(content, blob, directory, container, storageaccount, storagekey, timestamp, contenttype)
 
     token = string("SharedKey ", storageaccount, ":", signature)
 

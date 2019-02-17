@@ -20,29 +20,35 @@ However, the Dates package does not include the timezone by default.
 http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
 
 
+function storage_signature(verb, contentsize, contenttype, time_arg, location_arg)
+    string(verb, "\n\n\n", contentsize, "\n\n", contenttype, 
+		   "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
+end
+
+
 """
-Generate signature for Azure storage.
+Signature for [`get_blob`](@ref).
 """
-function storage_signature(; verb::String,
-                         storageaccount::String, storagekey,
-                         container::String, timestamp::String,
-                         headers::String = "", CMD::String = "",
-                         contentsize::String = "", 
-                         contenttype::String = "")
+function storage_signature(blob, directory, container, storageaccount, storagekey, timestamp)
+	time_arg = signature_time(timestamp)
 
-	# TODO: Rename to storage_signature?
-	# TODO: verb must be "GET" or "PUT"
-	# TODO: timestamp must be valid
-    time_arg = if length(headers) == 0
-		signature_time(timestamp)
-	else
-		signature_time(timestamp, headers)
-    end
+    location_arg = string("/", storageaccount, "/", container, "/", directory, "/", blob)
 
-    location_arg = string("/", storageaccount, "/", container, CMD)
+	signature = storage_signature("GET", "", "", time_arg, location_arg)
 
-    signature = string(verb, "\n\n\n", contentsize, "\n\n", contenttype, 
-                       "\n\n\n\n\n\n\n", time_arg, "\n", location_arg)
+	encode_storagekey(storagekey, signature)
+end
+
+
+"""
+Signature for [`put_blob`](@ref).
+"""
+function storage_signature(content, blob, directory, container, storageaccount, storagekey, timestamp, contenttype)
+	time_arg = signature_time(timestamp, "x-ms-blob-type:Blockblob")
+
+    location_arg = string("/", storageaccount, "/", container, "/", directory, "/", blob)
+
+	signature = storage_signature("PUT", contentsize(content), contenttype, time_arg, location_arg)
 
 	encode_storagekey(storagekey, signature)
 end
@@ -53,8 +59,14 @@ signature_time(timestamp[, headers])
 
 Include the time stamp information for the signature.
 """
-function signature_time(timestamp)
-    string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)
+function signature_time(timestamp::Dates.DateTime)
+	@pipe timestamp |> 
+		http_date |>
+    	signature_time
+end
+
+function signature_time(timestamp::String)
+  	string("x-ms-date:", timestamp, "\nx-ms-version:", X_MS_VERSION)
 end
 
 function signature_time(timestamp, headers)

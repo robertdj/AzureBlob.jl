@@ -1,11 +1,12 @@
+# TODO: Haven't made up my mind about whether or not to have a function to return 
+# a base header for both get_blob and put_blob
+
 """
 	get_blob(blob, directory, container, storageaccount, storagekey)
 
 Download file from blob storage using HTTP GET.
 """
 function get_blob(blob, directory, container, storageaccount, storagekey)
-    #TODO: Check input
-
 	timestamp = http_date(Dates.now())
 	signature = storage_signature(blob, directory, container, storageaccount, storagekey, timestamp)
 
@@ -21,6 +22,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey)
 	bloburl = blob_to_url(blob, directory, container, storageaccount)
     HTTP.get(bloburl, header)
 end
+
 
 """
 	put_blob(content, blob, directory, container, storageaccount,

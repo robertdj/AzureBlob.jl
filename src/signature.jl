@@ -86,7 +86,8 @@ end
 """
 Return the content size of an object as needed in [`storage_signature`](@ref).
 
-# Examples
+## Examples
+
 ```jldoctest
 julia> contentsize("foo")
 "3"

@@ -10,7 +10,6 @@ using Pipe
 export 
     storage_signature,
     get_blob,
-    http_date,
     put_blob
 
 const X_MS_VERSION = "2017-04-17"

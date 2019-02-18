@@ -3,7 +3,7 @@
 
 Download file from blob storage using HTTP GET.
 """
-function get_blob(blob, directory, container, storageaccount, storagekey, resourcegroup)
+function get_blob(blob, directory, container, storageaccount, storagekey)
     #TODO: Check input
 
 	timestamp = http_date(Dates.now())
@@ -28,7 +28,7 @@ end
 Upload file to blob storage using HTTP PUT.
 """
 function put_blob(content, blob, directory, container, storageaccount,
-                  storagekey, resourcegroup, contenttype::String =
+                  storagekey, contenttype::String =
                   "application/json")
     # TODO: Check if content matches contenttype
 
@@ -64,3 +64,4 @@ function blob_to_url(blob, directory, container, storageaccount)
 		".blob.core.windows.net/", container, "/", directory, "/", blob
 	)
 end
+

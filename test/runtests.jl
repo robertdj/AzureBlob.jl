@@ -3,7 +3,7 @@ using Dates
 using Test
 
 @testset "Black box signature" begin
-	timestamp = DateTime(2019, 1, 1, 12, 34, 56) |> http_date
+	timestamp = DateTime(2019, 1, 1, 12, 34, 56) |> AzureBlob.http_date
 
 	getsig = storage_signature("blob", "directory", "container", "storageaccount", "storagekeyxx", timestamp)
 	@test getsig == "QDFeyZXEbQXqHJ3Pu4WByyWo1zU52SRC/GBktr+8SdU="

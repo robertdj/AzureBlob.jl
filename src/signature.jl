@@ -86,13 +86,14 @@ end
 """
 Return the content size of an object as needed in [`storage_signature`](@ref).
 
-# Examples
+## Examples
+
 ```jldoctest
 julia> contentsize("foo")
-3
+"3"
 ```
 """
-contentsize(obj::String) = length(obj)
+contentsize(obj::String) = length(obj) |> string
 
 
 # ------------------------------------------------------------------------------

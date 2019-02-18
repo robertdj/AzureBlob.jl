@@ -5,10 +5,6 @@ Download file from blob storage using HTTP GET.
 """
 function get_blob(blob, directory, container, storageaccount, storagekey, resourcegroup)
     #TODO: Check input
-    # TODO: Function for bloburl
-    blobdir = blob_directory(directory, blob)
-    bloburl = string("https://", storageaccount,
-                     ".blob.core.windows.net/", container, "/", blobdir)
 
 	timestamp = http_date(Dates.now())
 	signature = storage_signature(blob, directory, container, storageaccount, storagekey, timestamp)
@@ -22,6 +18,7 @@ function get_blob(blob, directory, container, storageaccount, storagekey, resour
 		"x-ms-date" => timestamp
     ]
 
+	bloburl = blob_to_url(blob, directory, container, storageaccount)
     HTTP.get(bloburl, header)
 end
 
@@ -34,9 +31,6 @@ function put_blob(content, blob, directory, container, storageaccount,
                   storagekey, resourcegroup, contenttype::String =
                   "application/json")
     # TODO: Check if content matches contenttype
-	blobdir = blob_directory(directory, blob)
-    bloburl = string("https://", storageaccount,
-                     ".blob.core.windows.net/", container, "/", blobdir)
 
     timestamp = http_date(Dates.now())
     sz = @pipe contentsize(content) |> string
@@ -54,9 +48,19 @@ function put_blob(content, blob, directory, container, storageaccount,
         "Content-type" => contenttype
     ]
 
+	bloburl = blob_to_url(blob, directory, container, storageaccount)
     HTTP.put(bloburl, header, content)
 end
 
-function blob_directory(directory, blob)
-    string(directory, "/", blob)
+
+"""
+	blob_to_url(blob, directory, container, storageaccount)
+
+Concatenate the components of a blob location to a URL.
+"""
+function blob_to_url(blob, directory, container, storageaccount)
+    string(
+		"https://", storageaccount,
+		".blob.core.windows.net/", container, "/", directory, "/", blob
+	)
 end

@@ -12,13 +12,11 @@ Downloading files uses HTTP GET and uploading uses HTTP PUT through the [HTTP pa
 Authorization happens with the `SharedKey` scheme as described in [official docs](https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key).
 This uses a signature that needs the storage account and storage key of the blob storage.
 
-The "Access keys" tab of the storage account look like this.
+The "Access keys" tab of a storage account look like this (in early 2019):
 
 ![Access keys tab](access_keys.png)
 
 The storage account name is available in the top left corner and the storage key is one of the "Key" fields.
-
-The screenshot is from early 2019.
 
 
 ## Usage
@@ -85,5 +83,6 @@ The main functions of the *AzureBlob* package (`get_blob` and `put_blob`) are *n
 
 ## Acknowledgement
 
-The *AzureBlob* package is inspired by similar functionality in the [AzureSMR package for R](https://github.com/Microsoft/AzureSMR) that is probably also available in the [cloudyr packages](https://github.com/cloudyr).
+The *AzureBlob* package is inspired by similar functionality in the [AzureSMR package for R](https://github.com/Microsoft/AzureSMR).
+This functionality is probably also available in the [cloudyr packages](https://github.com/cloudyr).
 

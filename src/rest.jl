@@ -7,7 +7,7 @@
 Download file from blob storage using HTTP GET.
 """
 function get_blob(blob, directory, container, storageaccount, storagekey)
-	timestamp = http_date(Dates.now())
+	timestamp = now_http_date()
 	signature = storage_signature(blob, directory, container, storageaccount, storagekey, timestamp)
 
     token = string("SharedKey ", storageaccount, ":", signature)
@@ -34,7 +34,7 @@ function put_blob(content, blob, directory, container, storageaccount,
                   storagekey, contenttype::String = "application/json")
     # TODO: Check if content matches contenttype
 
-    timestamp = http_date(Dates.now())
+	timestamp = now_http_date()
 	signature = storage_signature(content, blob, directory, container, storageaccount, storagekey, timestamp, contenttype)
 
     token = string("SharedKey ", storageaccount, ":", signature)

@@ -106,3 +106,14 @@ cf. <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-a
 """
 http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
 
+function http_date(dt::TimeZones.ZonedDateTime)
+	@pipe TimeZones.astimezone(dt, UTC) |> 
+		Dates.format(_, RFC1123_GMT)
+end
+
+function now_http_date()
+	@pipe Dates.now() |> 
+		TimeZones.ZonedDateTime(_, LOCALZONE) |> 
+		http_date
+end
+

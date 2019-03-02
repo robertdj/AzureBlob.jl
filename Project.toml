@@ -1,7 +1,7 @@
 name = "AzureBlob"
 uuid = "4bac5884-e781-11e8-2d28-1753da8c25e0"
 authors = ["Robert DJ <git@dahl-jacobsen.dk>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"

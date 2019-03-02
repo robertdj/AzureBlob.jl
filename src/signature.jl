@@ -63,7 +63,7 @@ signature_time(timestamp[, headers])
 Include the time stamp information for the signature.
 """
 function signature_time(timestamp::Dates.DateTime)
-	@pipe timestamp |> 
+	timestamp |> 
 		http_date |>
     	signature_time
 end

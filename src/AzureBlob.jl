@@ -8,10 +8,13 @@ import TimeZones
 
 using Pipe
 
+
 export 
-    storage_signature,
     get_blob,
-    put_blob
+	http_date,
+    put_blob,
+	storage_signature
+
 
 const X_MS_VERSION = "2017-04-17"
 
@@ -19,11 +22,10 @@ const X_MS_VERSION = "2017-04-17"
 const RFC1123_GMT = Dates.DateFormat("e, dd u yyyy HH:MM:SS G\\MT")
 
 const UTC = TimeZones.tz"UTC"
-const LOCALZONE = try
-		TimeZones.localzone()
-	catch
-		UTC
-	end
+#
+# In some virtualized environments it is not possible to get the local timezone
+const LOCALZONE = try TimeZones.localzone() catch; UTC end
+
 
 include("rest.jl")
 include("signature.jl")

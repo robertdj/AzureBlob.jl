@@ -63,7 +63,7 @@ signature_time(timestamp[, headers])
 Include the time stamp information for the signature.
 """
 function signature_time(timestamp::Dates.DateTime)
-	@pipe timestamp |> 
+	timestamp |> 
 		http_date |>
     	signature_time
 end
@@ -105,4 +105,15 @@ The RFC 1123 expects to have "GMT" (aka UTC) at the end of the string,
 cf. <https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings>.
 """
 http_date(dt::Dates.DateTime) = Dates.format(dt, RFC1123_GMT)
+
+function http_date(dt::TimeZones.ZonedDateTime)
+	@pipe TimeZones.astimezone(dt, UTC) |> 
+		Dates.format(_, RFC1123_GMT)
+end
+
+function now_http_date()
+	@pipe Dates.now() |> 
+		TimeZones.ZonedDateTime(_, LOCALZONE) |> 
+		http_date
+end
 

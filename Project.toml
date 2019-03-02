@@ -1,7 +1,7 @@
 name = "AzureBlob"
 uuid = "4bac5884-e781-11e8-2d28-1753da8c25e0"
 authors = ["Robert DJ <git@dahl-jacobsen.dk>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -9,6 +9,7 @@ Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 Nettle = "49dea1ee-f6fa-5aa6-9a11-8816cee7d4b9"
 Pipe = "b98c9c47-44ae-5843-9183-064241ee97a0"
+TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

@@ -6,6 +6,10 @@ The *AzureBlob* package provides functionality for downloading and uploading con
 The interaction is through the REST interface provided by the blob storage.
 Downloading files uses HTTP GET and uploading uses HTTP PUT through the [HTTP package](https://github.com/JuliaWeb/HTTP.jl).
 
+**Note**: 
+I have not used Azure since the spring of 2019 and have no way of checking if this package still works. 
+Feel free to submit PRs.
+
 
 ## Authorization details
 
